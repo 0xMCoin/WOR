@@ -13,13 +13,23 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import {
   MagicNavButton,
   MagicCompactPrimary,
   MagicSecondaryButton,
   MagicIconButton,
 } from "@/components/ui/magic-button";
+import {
+  FadeIn,
+  StaggerIn,
+  StaggerChild,
+  HeroStagger,
+  HeroLine,
+} from "@/components/ui/motion-section";
 import { Globe3D, type GlobeMarker } from "@/components/ui/3d-globe";
+
+const easeSmooth = [0.22, 1, 0.36, 1] as const;
 
 const HERO_GLOBE_MARKERS: GlobeMarker[] = [
   { lat: 29.76, lng: -95.37, src: "/images/logo.jpg", label: "Houston" },
@@ -39,7 +49,12 @@ function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-neutral-200/80 bg-white/80 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-950/80">
+    <motion.header
+      initial={{ opacity: 0, y: -12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: easeSmooth }}
+      className="sticky top-0 z-50 w-full border-b border-neutral-200/80 bg-white/80 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-950/80"
+    >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
         <a
           href="#"
@@ -103,7 +118,7 @@ function Navbar() {
           </div>
         </div>
       )}
-    </header>
+    </motion.header>
   );
 }
 
@@ -122,39 +137,59 @@ function Hero() {
   return (
     <>
       <section className="bg-neutral-100/40 px-4 py-8 dark:bg-neutral-950/40 sm:py-10">
-        <div className="relative mx-auto min-h-[480px] w-full overflow-hidden rounded-xl bg-white shadow-sm ring-1 shadow-black/10 ring-black/10 dark:bg-neutral-950 md:h-[400px] md:min-h-0">
+        <motion.div
+          className="relative mx-auto min-h-[480px] w-full overflow-hidden rounded-xl bg-white shadow-sm ring-1 shadow-black/10 ring-black/10 dark:bg-neutral-950 md:h-[400px] md:min-h-0"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, ease: easeSmooth }}
+        >
           {/* Copy + CTAs */}
           <div className="relative z-20 max-w-xl p-6 md:absolute md:inset-y-0 md:left-0 md:flex md:max-w-[55%] md:flex-col md:justify-center md:p-12">
-            <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
-              Now Live on Solana
-            </p>
-            <h1 className="mt-3 max-w-2xl text-balance text-3xl font-extrabold tracking-tight text-neutral-900 sm:text-4xl md:text-5xl lg:text-6xl dark:text-white">
-              War Oil Reserve{" "}
-              <span className="bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent dark:from-amber-400 dark:to-amber-300">
-                $WOR
-              </span>
-            </h1>
-            <p className="mt-2 text-balance text-neutral-600 dark:text-neutral-400 md:mt-4 md:max-w-lg md:text-lg">
-              Energy · Reserves · Power — true power lives in energy, not currency. Those who control the reserves shape the world.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-4 md:mt-8">
-              <a
-                href="#buy"
-                className="flex cursor-pointer items-center justify-center rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white shadow-[0px_0px_10px_0px_rgba(255,255,255,0.2)_inset] ring ring-white/20 ring-inset ring-offset-2 ring-offset-neutral-900 transition-all duration-200 hover:shadow-[0px_0px_20px_0px_rgba(255,255,255,0.4)_inset] hover:ring-white/40 active:scale-[0.98] dark:bg-white dark:text-neutral-900 dark:shadow-[inset_0_0_12px_rgba(0,0,0,0.06)] dark:ring-black/10 dark:ring-offset-neutral-950 dark:hover:bg-neutral-100"
-              >
-                Fill Up — Buy $WOR
-              </a>
-              <a
-                href="#overview"
-                className="flex cursor-pointer items-center justify-center rounded-lg bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 ring ring-inset ring-neutral-200 transition-all duration-200 hover:bg-neutral-50 hover:ring-neutral-300 active:scale-[0.98] dark:bg-neutral-800 dark:text-neutral-100 dark:ring-neutral-600 dark:hover:bg-neutral-700 dark:hover:ring-neutral-500"
-              >
-                Read the Brief
-              </a>
-            </div>
+            <HeroStagger>
+              <HeroLine>
+                <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
+                  Now Live on Solana
+                </p>
+              </HeroLine>
+              <HeroLine>
+                <h1 className="mt-3 max-w-2xl text-balance text-3xl font-extrabold tracking-tight text-neutral-900 sm:text-4xl md:text-5xl lg:text-6xl dark:text-white">
+                  War Oil Reserve{" "}
+                  <span className="bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent dark:from-amber-400 dark:to-amber-300">
+                    $WOR
+                  </span>
+                </h1>
+              </HeroLine>
+              <HeroLine>
+                <p className="mt-2 text-balance text-neutral-600 dark:text-neutral-400 md:mt-4 md:max-w-lg md:text-lg">
+                  Energy · Reserves · Power — true power lives in energy, not currency. Those who control the reserves shape the world.
+                </p>
+              </HeroLine>
+              <HeroLine>
+                <div className="mt-6 flex flex-wrap gap-4 md:mt-8">
+                  <a
+                    href="#buy"
+                    className="flex cursor-pointer items-center justify-center rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white shadow-[0px_0px_10px_0px_rgba(255,255,255,0.2)_inset] ring ring-white/20 ring-inset ring-offset-2 ring-offset-neutral-900 transition-all duration-200 hover:shadow-[0px_0px_20px_0px_rgba(255,255,255,0.4)_inset] hover:ring-white/40 active:scale-[0.98] dark:bg-white dark:text-neutral-900 dark:shadow-[inset_0_0_12px_rgba(0,0,0,0.06)] dark:ring-black/10 dark:ring-offset-neutral-950 dark:hover:bg-neutral-100"
+                  >
+                    Fill Up — Buy $WOR
+                  </a>
+                  <a
+                    href="#overview"
+                    className="flex cursor-pointer items-center justify-center rounded-lg bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 ring ring-inset ring-neutral-200 transition-all duration-200 hover:bg-neutral-50 hover:ring-neutral-300 active:scale-[0.98] dark:bg-neutral-800 dark:text-neutral-100 dark:ring-neutral-600 dark:hover:bg-neutral-700 dark:hover:ring-neutral-500"
+                  >
+                    Read the Brief
+                  </a>
+                </div>
+              </HeroLine>
+            </HeroStagger>
           </div>
 
           {/* Globe — desktop: corner; mobile: below copy */}
-          <div className="relative z-10 mx-auto mt-2 h-[260px] w-full max-w-sm sm:h-[300px] md:absolute md:-right-72 md:bottom-[-6.5rem] md:left-auto md:mt-0 md:h-[min(36rem,90vw)] md:w-[min(36rem,90vw)] md:max-w-none lg:-right-64 lg:bottom-[-7rem]">
+          <motion.div
+            className="relative z-10 mx-auto mt-2 h-[260px] w-full max-w-sm sm:h-[300px] md:absolute md:-right-72 md:bottom-[-6.5rem] md:left-auto md:mt-0 md:h-[min(36rem,90vw)] md:w-[min(36rem,90vw)] md:max-w-none lg:-right-64 lg:bottom-[-7rem]"
+            initial={{ opacity: 0, scale: 0.94 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.75, delay: 0.2, ease: easeSmooth }}
+          >
             <Globe3D
               className="h-full w-full !min-h-0"
               markers={HERO_GLOBE_MARKERS}
@@ -168,13 +203,14 @@ function Hero() {
                 backgroundColor: null,
               }}
             />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Token specs strip */}
       <section className="border-y border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900/50">
-        <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6">
+        <FadeIn>
+          <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6">
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm">
             {TOKEN_SPECS.map(({ label, value }) => (
               <div key={label} className="flex items-center gap-2">
@@ -187,6 +223,7 @@ function Hero() {
             ))}
           </div>
         </div>
+        </FadeIn>
       </section>
     </>
   );
@@ -220,33 +257,34 @@ function Features() {
       className="border-t border-neutral-200 bg-white px-4 py-16 dark:border-neutral-800 dark:bg-neutral-950 sm:px-6 lg:py-20"
     >
       <div className="mx-auto max-w-6xl">
-        <p className="text-center text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
-          Why WOR
-        </p>
-        <h2 className="mt-2 text-center text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
-          Built for the long run
-        </h2>
-        <p className="mt-4 max-w-2xl mx-auto text-center text-neutral-600 dark:text-neutral-400">
-          Stored strength on-chain — built for those who stand behind the chaos.
-        </p>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <FadeIn>
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
+            Why WOR
+          </p>
+          <h2 className="mt-2 text-center text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
+            Built for the long run
+          </h2>
+          <p className="mt-4 max-w-2xl mx-auto text-center text-neutral-600 dark:text-neutral-400">
+            Stored strength on-chain — built for those who stand behind the chaos.
+          </p>
+        </FadeIn>
+        <StaggerIn className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {features.map(({ icon: Icon, title, description }) => (
-            <div
-              key={title}
-              className="group rounded-xl border border-neutral-200 bg-neutral-50/50 p-6 transition dark:border-neutral-800 dark:bg-neutral-900/30 dark:hover:border-amber-500/20"
-            >
-              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400">
-                <Icon className="h-3.5 w-3.5" />
+            <StaggerChild key={title}>
+              <div className="group h-full rounded-xl border border-neutral-200 bg-neutral-50/50 p-6 transition dark:border-neutral-800 dark:bg-neutral-900/30 dark:hover:border-amber-500/20">
+                <div className="flex h-8 w-8 items-center justify-center rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                  <Icon className="h-3.5 w-3.5" />
+                </div>
+                <h3 className="mt-4 font-semibold text-neutral-900 dark:text-white">
+                  {title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                  {description}
+                </p>
               </div>
-              <h3 className="mt-4 font-semibold text-neutral-900 dark:text-white">
-                {title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
-                {description}
-              </p>
-            </div>
+            </StaggerChild>
           ))}
-        </div>
+        </StaggerIn>
       </div>
     </section>
   );
@@ -259,22 +297,24 @@ function Overview() {
       className="border-t border-neutral-200 bg-neutral-50 px-4 py-16 dark:border-neutral-800 dark:bg-neutral-900/30 sm:px-6 lg:py-24"
     >
       <div className="mx-auto max-w-6xl">
-        <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
-          The Lore
-        </p>
-        <h2 className="mt-2 text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
-          The Reserve
-        </h2>
+        <FadeIn>
+          <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
+            The Lore
+          </p>
+          <h2 className="mt-2 text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
+            The Reserve
+          </h2>
+        </FadeIn>
         <div className="mt-10 grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          <div className="space-y-6 text-neutral-600 dark:text-neutral-300 leading-relaxed">
+          <FadeIn className="space-y-6 text-neutral-600 dark:text-neutral-300 leading-relaxed" delay={0.08}>
             <p>
               War Oil Reserve represents the idea that true power has always been stored in energy, not currency, and those who control the reserves shape the world.
             </p>
             <p>
               In a volatile system, WOR becomes a decentralized symbol of stored strength, positioning its holders as part of the reserve behind the chaos.
             </p>
-          </div>
-          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+          </FadeIn>
+          <FadeIn className="relative mx-auto w-full max-w-md lg:max-w-none" delay={0.12}>
             <div
               className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-amber-500/30 via-amber-600/10 to-transparent opacity-70 blur-2xl dark:from-amber-500/20"
               aria-hidden
@@ -289,7 +329,7 @@ function Overview() {
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
-          </div>
+          </FadeIn>
         </div>
       </div>
     </section>
@@ -302,25 +342,27 @@ function VisualBanner() {
       className="relative border-t border-neutral-200 dark:border-neutral-800"
       aria-label="Brand visual"
     >
-      <div className="relative h-56 w-full overflow-hidden sm:h-72 md:h-80">
-        <Image
-          src="/images/banner.jpg"
-          alt="War Oil Reserve — global reserve network"
-          fill
-          className="object-cover object-center"
-          sizes="100vw"
-          priority={false}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/50 to-neutral-950/20 dark:from-neutral-950 dark:via-neutral-950/60" />
-        <div className="absolute inset-0 flex flex-col justify-end px-4 pb-8 sm:px-6 md:px-10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-amber-400">
-            Network
-          </p>
-          <p className="mt-1 max-w-xl text-lg font-semibold text-white drop-shadow md:text-xl">
-            Reserve-grade infrastructure. Built for global liquidity.
-          </p>
+      <FadeIn>
+        <div className="relative h-56 w-full overflow-hidden sm:h-72 md:h-80">
+          <Image
+            src="/images/banner.jpg"
+            alt="War Oil Reserve — global reserve network"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+            priority={false}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/50 to-neutral-950/20 dark:from-neutral-950 dark:via-neutral-950/60" />
+          <div className="absolute inset-0 flex flex-col justify-end px-4 pb-8 sm:px-6 md:px-10">
+            <p className="text-xs font-semibold uppercase tracking-widest text-amber-400">
+              Network
+            </p>
+            <p className="mt-1 max-w-xl text-lg font-semibold text-white drop-shadow md:text-xl">
+              Reserve-grade infrastructure. Built for global liquidity.
+            </p>
+          </div>
         </div>
-      </div>
+      </FadeIn>
     </section>
   );
 }
@@ -342,16 +384,18 @@ function Specs() {
   return (
     <section className="border-t border-neutral-200 bg-white px-4 py-16 dark:border-neutral-800 dark:bg-neutral-950 sm:px-6 lg:py-24">
       <div className="mx-auto max-w-4xl">
-        <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
-          Technical Data
-        </p>
-        <h2 className="mt-2 text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
-          Reserve Specs
-        </h2>
-        <p className="mt-2 text-neutral-600 dark:text-neutral-400">
-          Token intelligence at a glance.
-        </p>
-        <div className="mt-10 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-800">
+        <FadeIn>
+          <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
+            Technical Data
+          </p>
+          <h2 className="mt-2 text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
+            Reserve Specs
+          </h2>
+          <p className="mt-2 text-neutral-600 dark:text-neutral-400">
+            Token intelligence at a glance.
+          </p>
+        </FadeIn>
+        <FadeIn className="mt-10 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-800" delay={0.1}>
           <table className="w-full text-left text-sm">
             <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
               {SPECS_ROWS.map(({ label, value }) => (
@@ -366,7 +410,7 @@ function Specs() {
               ))}
             </tbody>
           </table>
-        </div>
+        </FadeIn>
       </div>
     </section>
   );
@@ -412,36 +456,36 @@ function Tokenomics() {
       className="border-t border-neutral-200 bg-neutral-50 px-4 py-16 dark:border-neutral-800 dark:bg-neutral-900/30 sm:px-6 lg:py-24"
     >
       <div className="mx-auto max-w-6xl">
-        <p className="text-center text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
-          Distribution
-        </p>
-        <h2 className="mt-2 text-center text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
-          Tokenomics
-        </h2>
-        <p className="mt-4 max-w-2xl mx-auto text-center text-neutral-600 dark:text-neutral-400">
-          Transparent allocation. No hidden supply.
-        </p>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <FadeIn>
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
+            Distribution
+          </p>
+          <h2 className="mt-2 text-center text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
+            Tokenomics
+          </h2>
+          <p className="mt-4 max-w-2xl mx-auto text-center text-neutral-600 dark:text-neutral-400">
+            Transparent allocation. No hidden supply.
+          </p>
+        </FadeIn>
+        <StaggerIn className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {TOKENOMICS_ITEMS.map(({ pct, title, desc }) => (
-            <div
-              key={title}
-              className="rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-950"
-            >
-              <div className="flex items-start justify-between">
-
-                <span className="text-xl font-bold text-neutral-900 dark:text-white">
-                  {pct}
-                </span>
+            <StaggerChild key={title}>
+              <div className="h-full rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-950">
+                <div className="flex items-start justify-between">
+                  <span className="text-xl font-bold text-neutral-900 dark:text-white">
+                    {pct}
+                  </span>
+                </div>
+                <h3 className="mt-4 font-semibold text-neutral-900 dark:text-white">
+                  {title}
+                </h3>
+                <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  {desc}
+                </p>
               </div>
-              <h3 className="mt-4 font-semibold text-neutral-900 dark:text-white">
-                {title}
-              </h3>
-              <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                {desc}
-              </p>
-            </div>
+            </StaggerChild>
           ))}
-        </div>
+        </StaggerIn>
       </div>
     </section>
   );
@@ -501,21 +545,21 @@ function Roadmap() {
       className="border-t border-neutral-200 bg-white px-4 py-16 dark:border-neutral-800 dark:bg-neutral-950 sm:px-6 lg:py-24"
     >
       <div className="mx-auto max-w-5xl">
-        <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
-          Operations Timeline
-        </p>
-        <h2 className="mt-2 text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
-          The Roadmap
-        </h2>
-        <p className="mt-2 text-neutral-600 dark:text-neutral-400">
-          From launch to global reserve.
-        </p>
-        <div className="mt-12 space-y-8 lg:space-y-10">
+        <FadeIn>
+          <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
+            Operations Timeline
+          </p>
+          <h2 className="mt-2 text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
+            The Roadmap
+          </h2>
+          <p className="mt-2 text-neutral-600 dark:text-neutral-400">
+            From launch to global reserve.
+          </p>
+        </FadeIn>
+        <StaggerIn className="mt-12 space-y-8 lg:space-y-10">
           {ROADMAP_PHASES.map(({ phase, status, title, items }) => (
-            <div
-              key={phase}
-              className="rounded-xl border border-neutral-200 bg-neutral-50/50 p-6 dark:border-neutral-800 dark:bg-neutral-900/30"
-            >
+            <StaggerChild key={phase}>
+              <div className="rounded-xl border border-neutral-200 bg-neutral-50/50 p-6 dark:border-neutral-800 dark:bg-neutral-900/30">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-sm font-bold text-amber-600 dark:text-amber-500">
                   Phase {phase}
@@ -539,8 +583,9 @@ function Roadmap() {
                 ))}
               </ul>
             </div>
+            </StaggerChild>
           ))}
-        </div>
+        </StaggerIn>
       </div>
     </section>
   );
@@ -586,33 +631,34 @@ function HowToBuy() {
       className="border-t border-neutral-200 bg-neutral-50 px-4 py-16 dark:border-neutral-800 dark:bg-neutral-900/30 sm:px-6 lg:py-24"
     >
       <div className="mx-auto max-w-4xl">
-        <p className="text-center text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
-          Acquisition Protocol
-        </p>
-        <h2 className="mt-2 text-center text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
-          How to Buy $WOR
-        </h2>
-        <div className="mt-12 grid gap-8 sm:grid-cols-2">
+        <FadeIn>
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-amber-600 dark:text-amber-500">
+            Acquisition Protocol
+          </p>
+          <h2 className="mt-2 text-center text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
+            How to Buy $WOR
+          </h2>
+        </FadeIn>
+        <StaggerIn className="mt-12 grid gap-8 sm:grid-cols-2">
           {BUY_STEPS.map(({ step, title, desc }) => (
-            <div
-              key={step}
-              className="flex gap-4 rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-950"
-            >
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-amber-500/15 text-lg font-bold text-amber-600 dark:text-amber-400">
-                {step}
-              </span>
-              <div>
-                <h3 className="font-semibold text-neutral-900 dark:text-white">
-                  {title}
-                </h3>
-                <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                  {desc}
-                </p>
+            <StaggerChild key={step}>
+              <div className="flex h-full gap-4 rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-950">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-amber-500/15 text-lg font-bold text-amber-600 dark:text-amber-400">
+                  {step}
+                </span>
+                <div>
+                  <h3 className="font-semibold text-neutral-900 dark:text-white">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                    {desc}
+                  </p>
+                </div>
               </div>
-            </div>
+            </StaggerChild>
           ))}
-        </div>
-        <div className="mt-12 rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-950">
+        </StaggerIn>
+        <FadeIn className="mt-12 rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-950" delay={0.08}>
           <p className="text-xs font-medium uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
             Contract Address
           </p>
@@ -643,7 +689,7 @@ function HowToBuy() {
               <ExternalLink className="h-3.5 w-3.5 opacity-80" />
             </MagicSecondaryButton>
           </div>
-        </div>
+        </FadeIn>
       </div>
     </section>
   );
@@ -659,7 +705,8 @@ const FOOTER_LINKS = [
 function Footer() {
   return (
     <footer className="border-t border-neutral-200 bg-white px-4 py-12 dark:border-neutral-800 dark:bg-neutral-950 sm:px-6">
-      <div className="mx-auto max-w-6xl">
+      <FadeIn>
+        <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div className="flex items-center gap-2">
             <Image
@@ -710,7 +757,8 @@ function Footer() {
         <p className="mt-6 text-xs text-neutral-500 dark:text-neutral-500">
           © {new Date().getFullYear()} War Oil Reserve · $WOR · All Rights Reserved
         </p>
-      </div>
+        </div>
+      </FadeIn>
     </footer>
   );
 }
