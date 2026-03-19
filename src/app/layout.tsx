@@ -1,16 +1,29 @@
 import type { Metadata } from "next";
-import { Inter, Press_Start_2P } from "next/font/google";
+import { Plus_Jakarta_Sans, Space_Grotesk, Press_Start_2P } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/contexts/theme-context";
 import { ScrollRestoration } from "@/components/ui/scroll-restoration";
 import { ForceScrollTop } from "@/components/ui/force-scroll-top";
 
-const inter = Inter({
+/** Body + UI — readable, modern SaaS / landing */
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
+  variable: "--font-sans",
   display: "swap",
   preload: true,
-  fallback: ["system-ui", "arial"],
+  weight: ["400", "500", "600", "700", "800"],
+  fallback: ["system-ui", "Segoe UI", "sans-serif"],
+});
+
+/** Headlines — tech / crypto feel */
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+  preload: true,
+  weight: ["500", "600", "700"],
+  fallback: ["system-ui", "sans-serif"],
 });
 
 const pressStart2P = Press_Start_2P({
@@ -61,7 +74,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${plusJakarta.variable} ${spaceGrotesk.variable} ${pressStart2P.variable}`}
+    >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -80,7 +96,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/images/logo.jpg" />
         <link rel="preload" href="/globals.css" as="style" />
       </head>
-      <body className={`${inter.className} ${pressStart2P.variable}`}>
+      <body className="min-h-screen font-sans antialiased">
         <ThemeProvider>
           {children}
           <Toaster

@@ -10,6 +10,20 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
+        sans: [
+          "var(--font-sans)",
+          "ui-sans-serif",
+          "system-ui",
+          "Segoe UI",
+          "sans-serif",
+        ],
+        heading: [
+          "var(--font-heading)",
+          "var(--font-sans)",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
         arcade: ["var(--font-press-start-2p)", "monospace"],
       },
       colors: {
