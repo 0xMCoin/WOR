@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Space_Grotesk, Press_Start_2P } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import { ThemeProvider } from "@/contexts/theme-context";
 import { ScrollRestoration } from "@/components/ui/scroll-restoration";
 import { ForceScrollTop } from "@/components/ui/force-scroll-top";
 
@@ -76,7 +75,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakarta.variable} ${spaceGrotesk.variable} ${pressStart2P.variable}`}
+      className={`dark ${plusJakarta.variable} ${spaceGrotesk.variable} ${pressStart2P.variable}`}
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -90,29 +89,27 @@ export default function RootLayout({
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="WOR — War Oil Reserve" />
         <link rel="icon" href="/images/logo.jpg" sizes="64x64" />
         <link rel="apple-touch-icon" href="/images/logo.jpg" />
         <link rel="preload" href="/globals.css" as="style" />
       </head>
-      <body className="min-h-screen font-sans antialiased">
-        <ThemeProvider>
-          {children}
-          <Toaster
-            position="top-center"
-            toastOptions={{
-              duration: 4000,
-              style: {
-                background: "#000",
-                color: "#fff",
-                border: "2px solid rgb(0, 102, 204)",
-              },
-            }}
-          />
-          <ScrollRestoration />
-          <ForceScrollTop />
-        </ThemeProvider>
+      <body className="min-h-screen bg-neutral-950 font-sans antialiased text-neutral-100">
+        {children}
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: "#000",
+              color: "#fff",
+              border: "2px solid rgb(0, 102, 204)",
+            },
+          }}
+        />
+        <ScrollRestoration />
+        <ForceScrollTop />
 
         <script
           dangerouslySetInnerHTML={{

@@ -7,14 +7,12 @@ import {
   TrendingUp,
   Menu,
   X,
-  Moon,
-  Sun,
   Copy,
   Check,
   Flame,
   ExternalLink,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   MagicNavButton,
   MagicCompactPrimary,
@@ -29,37 +27,6 @@ const HERO_GLOBE_MARKERS: GlobeMarker[] = [
   { lat: 51.51, lng: -0.13, src: "/images/logo.jpg", label: "London" },
   { lat: 35.68, lng: 139.76, src: "/images/logo.jpg", label: "Tokyo" },
 ];
-
-function DarkModeToggle() {
-  const [dark, setDark] = useState(false);
-
-  useEffect(() => {
-    const isDark =
-      document.documentElement.classList.contains("dark") ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
-    setDark(isDark);
-    if (isDark) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-  }, []);
-
-  const toggle = () => {
-    const next = !document.documentElement.classList.toggle("dark");
-    setDark(!next);
-    localStorage.setItem("theme", next ? "dark" : "light");
-  };
-
-  return (
-    <button
-      type="button"
-      onClick={toggle}
-      className="rounded-lg p-2 text-neutral-600 hover:bg-neutral-200 dark:text-neutral-400 dark:hover:bg-neutral-800 transition-colors"
-      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-    >
-      {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-    </button>
-  );
-}
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -98,16 +65,12 @@ function Navbar() {
               {link.label}
             </a>
           ))}
-          <div className="ml-2">
-            <DarkModeToggle />
-          </div>
           <MagicNavButton href="#buy" className="ml-2">
             Buy
           </MagicNavButton>
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
-          <DarkModeToggle />
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
@@ -753,20 +716,8 @@ function Footer() {
 }
 
 export default function Home() {
-  useEffect(() => {
-    if (
-      localStorage.getItem("theme") === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, []);
-
   return (
-    <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
+    <div className="min-h-screen bg-neutral-950 text-neutral-100">
       <Navbar />
       <main>
         <Hero />
